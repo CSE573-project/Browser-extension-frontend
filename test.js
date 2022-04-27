@@ -5,7 +5,7 @@ let maxArrayLength = 20;
 // browser action popup.
 function buildPopupDom(divName, data) {
   maxArrayLength = data.length > maxArrayLength ? maxArrayLength : data.length;
-  data = data.slice(0,maxArrayLength);
+  data = data.slice(0, maxArrayLength);
   console.log(data);
   var links = data;
   var request_json = { "request_links": links };
@@ -30,7 +30,7 @@ function buildPopupDom(divName, data) {
       var result = key + ' : ' + response[key];
       console.log(key);
       console.log(response[key]);
-  
+
       var li = document.createElement('li');
       li.innerHTML = result;
       ul.appendChild(li);
@@ -137,23 +137,56 @@ function buildTypedUrlList(divName) {
   };
 }
 
-// document.addEventListener('DOMContentLoaded', function () {
-//   buildTypedUrlList("typedUrl_div");
-// });
 
-// 1. Create the button
-var button = document.createElement("button");
-button.innerHTML = "Fetch User Data";
+// const btn = document.querySelector("button");
+const post = document.querySelector(".post");
+const widget = document.querySelector(".star-widget");
+const recommendation = document.getElementById("recommendation");
 
-// 2. Append somewhere
-var body = document.getElementsByTagName("body")[0];
-body.appendChild(button);
+const recommendationBtn = document.getElementById("recommendationBtn");
+recommendationBtn.addEventListener("click", showResult);
 
-// 3. Add event handler
-button.addEventListener("click", function () {
-  // alert("did something");
-  button.style.display = 'none';
+const feedbackBtn = document.getElementById("feedbackBtn");
+feedbackBtn.addEventListener("click", showFeedBack);
+
+const result = document.getElementById("submit");
+result.addEventListener("click", functionStoreResult);
+
+const resultData = document.getElementById("myData");
+const feedback = document.getElementById("container");
+
+
+feedback.style.display = "none";
+feedbackBtn.style.display = "none";
+
+function showResult(){
+  recommendationBtn.style.display = 'none';
+  feedbackBtn.style.display = "block";
   buildTypedUrlList("typedUrl_div");
-});
+}
 
+function showFeedBack(){
+    feedbackBtn.style.display = "none";
+    feedback.style.display = "block";
+    resultData.style.display = "none";
+}
 
+function functionStoreResult() {
+    var rating = 0;
+    if (document.getElementById("rate-5").checked) {
+      rating = 5;
+    } else if (document.getElementById("rate-4").checked) {
+      rating = 4;
+    } else if (document.getElementById("rate-3").checked) {
+      rating = 3;
+    } else if (document.getElementById("rate-2").checked) {
+      rating = 2;
+    } else if (document.getElementById("rate-1").checked) {
+      rating = 1;
+    }
+    console.log(document.getElementById("myTextarea").value);
+    console.log(rating);
+    widget.style.display = "none";
+    post.style.display = "block";
+    recommendation.style.display = "none";
+}
