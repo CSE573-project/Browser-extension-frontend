@@ -38,7 +38,7 @@ function buildPopupDom(divName, data) {
     }
     feedbackBtn.style.display = "block";
   };
-
+  // spinner.style.display = "none";
   // var response = { 'City': ['Isa Town', 'Dora', 'Tirat Carmel'], 'Board Game': ['Games played with Mahjong equipment', 'Tiger game', 'tafl games'], 'Building': ['Lindenstraße 62', 'Werderstraße 157', 'Südstraße 80 und 82'], 'Musical Work': ['Earth Dances', 'The Creation structure', 'Four Last Songs'], 'Anime': ['Jankenman', 'Nekomonogatari', 'Akū Daisakusen Srungle'] };
 
   // // console.log(msg);
@@ -55,6 +55,7 @@ function buildPopupDom(divName, data) {
   //   li.innerHTML = result;
   //   ul.appendChild(li);
   // }
+  // feedbackBtn.style.display = "block";
 }
 
 // Search history to find up to ten links that a user has typed in,
@@ -191,7 +192,25 @@ function functionStoreResult() {
   }
   console.log(document.getElementById("myTextarea").value);
   console.log(rating);
+  sendFeedback('Yash',document.getElementById("myTextarea").value,rating);
   widget.style.display = "none";
   post.style.display = "block";
   recommendation.style.display = "none";
+  
+}
+
+
+function sendFeedback(name,description, rating) {
+  var request_json = {
+    name:name,
+    description: description,
+    rating: rating
+  };
+  fetch("http://localhost:3000/feedback", {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify(request_json)
+  }).then(res => {
+    console.log("Request complete! response:", res);
+  });
 }
