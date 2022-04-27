@@ -1,4 +1,6 @@
 
+let maxArrayLength = 20;
+
 function onAnchorClick(event) {
   chrome.tabs.create({
     selected: true,
@@ -10,22 +12,41 @@ function onAnchorClick(event) {
 // Given an array of URLs, build a DOM list of those URLs in the
 // browser action popup.
 function buildPopupDom(divName, data) {
+  maxArrayLength = data.length > maxArrayLength ? maxArrayLength : data.length;
+  data = data.slice(0,maxArrayLength);
   console.log(data);
-  var links = data;
-  var request_json = {"request_links": links};
-  const xhr = new XMLHttpRequest();
-  const url = 'http://127.0.0.1:5000/recommendation';
-  xhr.open("POST", url, true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.send(JSON.stringify({
-    value: request_json
-  }));
+  // var links = data;
+  // var request_json = { "request_links": links };
+  // const xhr = new XMLHttpRequest();
+  // const url = 'http://127.0.0.1:5000/recommendation';
+  // xhr.open("POST", url, true);
+  // xhr.setRequestHeader('Content-Type', 'application/json');
+  // xhr.send(JSON.stringify({
+  //   value: request_json
+  // }));
 
-  xhr.onload = function() {
-    console.log(this.status);
-    var data = JSON.parse(this.responseText);
-    console.log(data);
-};
+  // xhr.onload = function () {
+  //   console.log(this.status);
+  //   var data = JSON.parse(this.responseText);
+  //   console.log(data);
+  // };
+
+  var response = { 'City': ['Isa Town', 'Dora', 'Tirat Carmel'], 'Board Game': ['Games played with Mahjong equipment', 'Tiger game', 'tafl games'], 'Building': ['Lindenstraße 62', 'Werderstraße 157', 'Südstraße 80 und 82'], 'Musical Work': ['Earth Dances', 'The Creation structure', 'Four Last Songs'], 'Anime': ['Jankenman', 'Nekomonogatari', 'Akū Daisakusen Srungle'] };
+
+  // console.log(msg);
+  var mainContainer = document.getElementById("myData");
+
+  var ul = document.createElement('ul');
+  mainContainer.appendChild(ul);
+  for (var key in response) {
+    var result = key + ' : ' + response[key];
+    console.log(key);
+    console.log(response[key]);
+
+    var li = document.createElement('li');
+    li.innerHTML = result;
+    ul.appendChild(li);
+  }
 
 
   // var popupDiv = document.getElementById(divName);
@@ -37,7 +58,7 @@ function buildPopupDom(divName, data) {
   //   var a = document.createElement('a');
   //   a.href = data[i];
   //   const Http = new XMLHttpRequest();
-    
+
   //   const url = 'http://127.0.0.1:5000/url?url=' + data[i];
   //   Http.open("GET", url);
   //   Http.send();
@@ -159,7 +180,10 @@ var body = document.getElementsByTagName("body")[0];
 body.appendChild(button);
 
 // 3. Add event handler
-button.addEventListener ("click", function() {
+button.addEventListener("click", function () {
   // alert("did something");
+  button.style.display = 'none';
   buildTypedUrlList("typedUrl_div");
 });
+
+
