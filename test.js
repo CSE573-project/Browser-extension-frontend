@@ -18,6 +18,7 @@ function buildPopupDom(divName, data) {
   }));
 
   xhr.onload = function () {
+    spinner.style.display = "none";
     console.log(this.status);
     var data = JSON.parse(this.responseText);
     console.log(data);
@@ -35,7 +36,7 @@ function buildPopupDom(divName, data) {
       li.innerHTML = result;
       ul.appendChild(li);
     }
-
+    feedbackBtn.style.display = "block";
   };
 
   // var response = { 'City': ['Isa Town', 'Dora', 'Tirat Carmel'], 'Board Game': ['Games played with Mahjong equipment', 'Tiger game', 'tafl games'], 'Building': ['Lindenstraße 62', 'Werderstraße 157', 'Südstraße 80 und 82'], 'Musical Work': ['Earth Dances', 'The Creation structure', 'Four Last Songs'], 'Anime': ['Jankenman', 'Nekomonogatari', 'Akū Daisakusen Srungle'] };
@@ -155,38 +156,42 @@ result.addEventListener("click", functionStoreResult);
 const resultData = document.getElementById("myData");
 const feedback = document.getElementById("container");
 
+const spinner = document.getElementById("spinner");
 
+spinner.style.display = "none";
 feedback.style.display = "none";
 feedbackBtn.style.display = "none";
 
-function showResult(){
+function showResult() {
   recommendationBtn.style.display = 'none';
-  feedbackBtn.style.display = "block";
+  spinner.style.display = "block";
+  // feedbackBtn.style.display = "block";
   buildTypedUrlList("typedUrl_div");
 }
 
-function showFeedBack(){
-    feedbackBtn.style.display = "none";
-    feedback.style.display = "block";
-    resultData.style.display = "none";
+function showFeedBack() {
+  spinner.style.display = "none";
+  feedbackBtn.style.display = "none";
+  feedback.style.display = "block";
+  resultData.style.display = "none";
 }
 
 function functionStoreResult() {
-    var rating = 0;
-    if (document.getElementById("rate-5").checked) {
-      rating = 5;
-    } else if (document.getElementById("rate-4").checked) {
-      rating = 4;
-    } else if (document.getElementById("rate-3").checked) {
-      rating = 3;
-    } else if (document.getElementById("rate-2").checked) {
-      rating = 2;
-    } else if (document.getElementById("rate-1").checked) {
-      rating = 1;
-    }
-    console.log(document.getElementById("myTextarea").value);
-    console.log(rating);
-    widget.style.display = "none";
-    post.style.display = "block";
-    recommendation.style.display = "none";
+  var rating = 0;
+  if (document.getElementById("rate-5").checked) {
+    rating = 5;
+  } else if (document.getElementById("rate-4").checked) {
+    rating = 4;
+  } else if (document.getElementById("rate-3").checked) {
+    rating = 3;
+  } else if (document.getElementById("rate-2").checked) {
+    rating = 2;
+  } else if (document.getElementById("rate-1").checked) {
+    rating = 1;
+  }
+  console.log(document.getElementById("myTextarea").value);
+  console.log(rating);
+  widget.style.display = "none";
+  post.style.display = "block";
+  recommendation.style.display = "none";
 }
